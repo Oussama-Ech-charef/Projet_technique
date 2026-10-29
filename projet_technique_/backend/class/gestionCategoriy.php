@@ -5,7 +5,7 @@
 
 
 
-require_once '../class/categoriy.php';
+require_once __DIR__ . '/categoriy.php';
 
 class gestionCategoriy {
 

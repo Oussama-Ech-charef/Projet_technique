@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
 
-    const API_URL = "http://localhost:8000/backend/api/controllers/controllerThematique.php";
+    const API_URL = "http://localhost:8000/backend/api/controllers/ControllerThematique.php";
 
     const tabele = document.getElementById("table_category");
 
@@ -14,10 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const sectionform = document.getElementById("section_form");
 
-    const nomcategory = document.getElementById("nom_category");
+    const nom = document.getElementById("nom");
 
-    const description = document.getElementById("description");
+    const desc = document.getElementById("desc");
 
+    const spinner = document.getElementById("spinner");
+    const btnText = document.getElementById("btn_text");
+    const btnSubmit = document.getElementById("btn_submit");
 
 
     btnajoute.addEventListener("click", () => {
@@ -36,12 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(API_URL)
             .then(response => response.json())
             .then(thematiques => {
-                tbody.innerHTML = ""
+                tabele.innerHTML = "";
                 thematiques.forEach(thematique => {
-                    tbody.innerHTML += `
+                    tabele.innerHTML += `
                 <tr>
-                <td class="p-4 text-sm font-semibold text-gray-500">${thematique.name}</td>
-                <td class="p-4 text-sm font-semibold text-gray-500 ">${thematique.description}</td>
+                <td class="p-4 text-sm font-semibold text-gray-500">${thematique.nom}</td>
+                <td class="p-4 text-sm font-semibold text-gray-500 ">${thematique.desc}</td>
                 </tr>
                 `
 
@@ -52,16 +55,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    function showToast(message,type="success"){
-        const container=document.getElementById("toast-container")
-        const toast=document.createElement("div");
-        toast.className="text-white px-4 py-3 rounded shadow "
-        if(type=="success"){
+    function showToast(message, type = "success") {
+        const container = document.getElementById("toast-container")
+        const toast = document.createElement("div");
+        toast.className = "text-white px-4 py-3 rounded shadow "
+        if (type == "success") {
             toast.className += "bg-green-500"
-        }else{
+        } else {
             toast.className += "bg-red-500"
         }
-        toast.textContent=message;
+        toast.textContent = message;
         container.appendChild(toast);
         setTimeout(() => {
             toast.remove();
@@ -69,53 +72,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    
-form.addEventListener("submit",function(e){
+
+    form.addEventListener("submit", function (e) {
         e.preventDefault()
-        const data={
-            name:nameF.value,
-            description:descriptionF.value
+        const data = {
+            nom: nom.value,
+            desc: desc.value
         }
         spinner.classList.remove("hidden")
-            btnText.textContent="enregistrer......"
-            btnSubmit.disabled=true;
+        btnText.textContent = "enregistrer......"
+        btnSubmit.disabled = true;
 
         fetch(API_URL,
             {
-                method:"POST",
-                headers:{
+                method: "POST",
+                headers: {
                     "Content-Type": "application/json"
                 },
-                body:JSON.stringify(data)
+                body: JSON.stringify(data)
             }
         )
-        .then(response => {
-        return response.json().then(data => {
-            if (!response.ok) {
-                throw new Error(data.error);
-            }
-            return data;
-        });
+            .then(response => {
+                return response.json().then(data => {
+                    if (!response.ok) {
+                        throw new Error(data.error);
+                    }
+                    return data;
+                });
+            })
+            .then(() => {
+                showToast("Added successfully", "success");
+                form.reset();
+                showThematique();
+            })
+            .catch(error => {
+                afficherCategory(error.message, "error");
+            })
+            .finally(() => {
+                spinner.classList.add("hidden");
+                btnText.textContent = "Enregistrer";
+                btnSubmit.disabled = false;
+            });
     })
-        .then(() => {
-            showToast("Added successfully", "success");
-            form.reset();
-            showThematique();
-        })
-        .catch(error => {
-            showToast(error.message, "error");
-        })
-        .finally(() => {
-            spinner.classList.add("hidden");
-            btnText.textContent = "Enregistrer";
-            btnSubmit.disabled = false;
-        });
-})
 
 
 
 
-
+    afficherCategory();
 
 
 });
