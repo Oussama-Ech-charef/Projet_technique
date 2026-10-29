@@ -79,58 +79,59 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-
     form.addEventListener("submit", function (e) {
-
         let toastMessage;
         let toastType;
-        e.preventDefault()
+        e.preventDefault();
+
+
         const data = {
             nom: nom.value,
             desc: desc.value
         }
+
         spinner.classList.remove("hidden")
-        btnText.textContent = "enregistrer......"
+        btnText.textContent = "enregistrer....."
         btnSubmit.disabled = true;
 
-        fetch(API_URL,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            }
-        )
-            .then(response => {
-                return response.json().then(data => {
-                    if (!response.ok) {
-                        throw new Error(data.error);
-                    }
-                    return data;
-                });
+        fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => {
+            return res.json()
+            .then(data => {
+                if (!res.ok) {
+                    throw new Error(data.error);
+                }
+                return data;
             })
-            .then(() => {
-                toastMessage = "Added successfully";
-                toastType = "success";
-                form.reset();
-                afficherCategory();
-            })
-            .catch(error => {
-                toastMessage = error.message;
-                toastType = "error";
-            })
-            .finally(() => {
-                setTimeout(() => {
-                    showToast(toastMessage, toastType);
+        })
+        .then(() => {
+            toastMessage = "category successfully";
+            toastType = "success";
+            form.reset();
+            afficherCategory();
+        })
+        .catch(error => {
+            toastMessage = error.message;
+            toastType = "error";
+        })
 
-                    spinner.classList.add("hidden");
-                    btnText.textContent = "Enregistrer";
-                    btnSubmit.disabled = false;
-                }, 1000);
-            });
+        .finally(() => {
+            setTimeout(() => {
+                showToast(toastMessage, toastType);
+
+                spinner.classList.add("hidden");
+                btnText.textContent = "Enregistrer";
+                btnSubmit.disabled = false;
+            }, 1000)
+        });
     })
-
+   
 
 
 

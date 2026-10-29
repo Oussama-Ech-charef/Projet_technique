@@ -3,50 +3,5 @@
         "id": 1,
         "nom": "jjkk",
         "desc": "jj"
-    },
-    {
-        "id": 2,
-        "nom": "dddd",
-        "desc": "d"
-    },
-    {
-        "id": 3,
-        "nom": "ddd",
-        "desc": "dd"
-    },
-    {
-        "id": 4,
-        "nom": "ddd",
-        "desc": "ddd"
-    },
-    {
-        "id": 5,
-        "nom": "ddd",
-        "desc": "dd"
-    },
-    {
-        "id": 6,
-        "nom": "dddd",
-        "desc": "dd"
-    },
-    {
-        "id": 7,
-        "nom": "ddd",
-        "desc": "dd"
-    },
-    {
-        "id": 8,
-        "nom": "ddd",
-        "desc": "dd"
-    },
-    {
-        "id": 9,
-        "nom": "ddd",
-        "desc": "d"
-    },
-    {
-        "id": 10,
-        "nom": "ddd",
-        "desc": "dd"
     }
 ]
