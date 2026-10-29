@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de categoriy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+    <div class="flex min-h-screen">
+
+        <aside class="w-64 bg-gray-800 p-6 text-white">
+
+            <h1 class="mb-8 text-2xl font-bold">Dashboard</h1>
+
+            <nav>
+
+                <a href="#" class="block p-3">Tableau de bord</a>
+                <a href="#" class="block p-3">Article</a>
+                <a href="#" class="block rounded bg-orange-500 p-3">Category</a>
+
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-8">
+
+            <div class="mb-8 flex items-center justify-between">
+
+                <div>
+
+                    <h2 class="text-3xl font-bold">Gestion des category</h2>
+
+                </div>
+
+                <button id="btn_addcategory" class="rounded bg-orange-500 px-5 py-3 text-white">+ Nouveau category</button>
+
+            </div>
+
+            <div id="section_form" class="mb-6 hidden rounded bg-white p-6">
+
+                <h3 class="mb-6 text-xl font-bold">Ajouter un category</h3>
+
+
+
+                <form id="form_category">
+
+                    <label for="nom_category" class="block">Nom de category :</label>
+
+                    <input type="text" id="nom_category" placeholder="Nom de category..." class="mb-4 w-full border p-3" required>
+
+                    <label for="description" class="block">Description de category :</label>
+                    
+                    <textarea id="description" placeholder="Description de category..." class="mb-4 w-full border p-3" required></textarea>
+
+                    <button type="submit" class="rounded bg-orange-500 px-5 py-2 text-white">Enregistrer</button>
+                    <button type="button" id="btn_annuler" class="ml-2 rounded bg-gray-300 px-5 py-2">Annuler</button>
+                </form>
+
+            </div>
+
+            <div class="bg-white">
+                <table class="w-full">
+                    <thead class="bg-gray-800 text-white">
+                        <tr>
+                            <th class="p-4 text-left">ID</th>
+                            <th class="p-4 text-left">Nom de category</th>
+                            <th class="p-4 text-left">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table_category"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
