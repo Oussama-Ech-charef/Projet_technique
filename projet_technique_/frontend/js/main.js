@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-
     function afficherCategory() {
 
         fetch(API_URL)
@@ -43,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 thematiques.forEach(thematique => {
                     tabele.innerHTML += `
                 <tr>
-                <td class="p-4 text-sm font-semibold text-gray-500">${thematique.id}</td>
                 <td class="p-4 text-sm font-semibold text-gray-500">${thematique.nom}</td>
                 <td class="p-4 text-sm font-semibold text-gray-500 ">${thematique.desc}</td>
                 </tr>
@@ -57,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showToast(message, type = "success") {
-        const container = document.getElementById("toast-container")
+        const container = document.getElementById("toast_con")
         const toast = document.createElement("div");
         toast.className = "text-white px-4 py-3 rounded shadow "
         if (type == "success") {
@@ -75,6 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     form.addEventListener("submit", function (e) {
+
+        let toastMessage;
+        let toastType;
         e.preventDefault()
         const data = {
             nom: nom.value,
@@ -102,17 +103,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             })
             .then(() => {
-                showToast("Added successfully", "success");
+                toastMessage = "Added successfully";
+                toastType = "success";
                 form.reset();
                 afficherCategory();
             })
             .catch(error => {
-                showToast(error.message, "error");
+                toastMessage = error.message;
+                toastType = "error";
             })
             .finally(() => {
-                spinner.classList.add("hidden");
-                btnText.textContent = "Enregistrer";
-                btnSubmit.disabled = false;
+                setTimeout(() => {
+                    showToast(toastMessage, toastType);
+
+                    spinner.classList.add("hidden");
+                    btnText.textContent = "Enregistrer";
+                    btnSubmit.disabled = false;
+                }, 1000);
             });
     })
 
