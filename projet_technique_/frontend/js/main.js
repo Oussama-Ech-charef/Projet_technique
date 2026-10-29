@@ -44,6 +44,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 <tr>
                 <td class="p-4 text-sm font-semibold text-gray-500">${thematique.nom}</td>
                 <td class="p-4 text-sm font-semibold text-gray-500 ">${thematique.desc}</td>
+                <td class="p-4 text-sm text-right">
+                    <a href="#" class="text-blue-600 hover:text-blue-800 mr-3">
+                        Edit
+                    </a>
+                    <a href="#" class="text-red-600 hover:text-red-800">
+                        Remove
+                    </a>
+                </td>
                 </tr>
                 `
 
