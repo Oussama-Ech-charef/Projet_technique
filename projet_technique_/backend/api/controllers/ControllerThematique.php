@@ -40,7 +40,7 @@ class ControllerCategory {
 
             $category = new Categoriy($data["nom"], $data["desc"], 0);            $gestionCategory = new gestionCategoriy();
             $gestionCategory->Create($category);
-            echo json_encode($category);
+            echo json_encode(["message" => "Category ajoutée avec succès"]);
         } catch (Exception $e) {
             http_response_code(500);
             echo json_encode(["error" => $e->getMessage()]);

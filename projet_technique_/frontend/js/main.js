@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 thematiques.forEach(thematique => {
                     tabele.innerHTML += `
                 <tr>
+                <td class="p-4 text-sm font-semibold text-gray-500">${thematique.id}</td>
                 <td class="p-4 text-sm font-semibold text-gray-500">${thematique.nom}</td>
                 <td class="p-4 text-sm font-semibold text-gray-500 ">${thematique.desc}</td>
                 </tr>
@@ -103,10 +104,10 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(() => {
                 showToast("Added successfully", "success");
                 form.reset();
-                showThematique();
+                afficherCategory();
             })
             .catch(error => {
-                afficherCategory(error.message, "error");
+                showToast(error.message, "error");
             })
             .finally(() => {
                 spinner.classList.add("hidden");
