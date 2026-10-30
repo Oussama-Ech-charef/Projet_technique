@@ -38,7 +38,8 @@ class ControllerCategory {
             $jsondata = file_get_contents("php://input");
             $data = json_decode($jsondata, true);
 
-            $category = new Categoriy($data["nom"], $data["desc"], 0);            $gestionCategory = new gestionCategoriy();
+            $category = new Categoriy($data["nom"], $data["desc"], 0); 
+            $gestionCategory = new gestionCategoriy();
             $gestionCategory->Create($category);
             echo json_encode(["message" => "Category ajoutée avec succès"]);
         } catch (Exception $e) {

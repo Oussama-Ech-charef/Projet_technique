@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-
     function afficherCategory() {
 
         fetch(API_URL)
@@ -43,9 +42,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 thematiques.forEach(thematique => {
                     tabele.innerHTML += `
                 <tr>
-                <td class="p-4 text-sm font-semibold text-gray-500">${thematique.id}</td>
                 <td class="p-4 text-sm font-semibold text-gray-500">${thematique.nom}</td>
                 <td class="p-4 text-sm font-semibold text-gray-500 ">${thematique.desc}</td>
+                <td class="p-4 text-sm text-right">
+                    <a href="#" class="text-blue-600 hover:text-blue-800 mr-3">
+                        Edit
+                    </a>
+                    <a href="#" class="text-red-600 hover:text-red-800">
+                        Remove
+                    </a>
+                </td>
                 </tr>
                 `
 
@@ -57,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showToast(message, type = "success") {
-        const container = document.getElementById("toast-container")
+        const container = document.getElementById("toast_con")
         const toast = document.createElement("div");
         toast.className = "text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300"
         if (type == "success") {
@@ -73,49 +79,59 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-
     form.addEventListener("submit", function (e) {
-        e.preventDefault()
+        let toastMessage;
+        let toastType;
+        e.preventDefault();
+
+
         const data = {
             nom: nom.value,
             desc: desc.value
         }
+
         spinner.classList.remove("hidden")
-        btnText.textContent = "enregistrer......"
+        btnText.textContent = "enregistrer....."
         btnSubmit.disabled = true;
 
-        fetch(API_URL,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            }
-        )
-            .then(response => {
-                return response.json().then(data => {
-                    if (!response.ok) {
-                        throw new Error(data.error);
-                    }
-                    return data;
-                });
+        fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => {
+            return res.json()
+            .then(data => {
+                if (!res.ok) {
+                    throw new Error(data.error);
+                }
+                return data;
             })
-            .then(() => {
-                showToast("Added successfully", "success");
-                form.reset();
-                afficherCategory();
-            })
-            .catch(error => {
-                showToast(error.message, "error");
-            })
-            .finally(() => {
+        })
+        .then(() => {
+            toastMessage = "category successfully";
+            toastType = "success";
+            form.reset();
+            afficherCategory();
+        })
+        .catch(error => {
+            toastMessage = error.message;
+            toastType = "error";
+        })
+
+        .finally(() => {
+            setTimeout(() => {
+                showToast(toastMessage, toastType);
+
                 spinner.classList.add("hidden");
                 btnText.textContent = "Enregistrer";
                 btnSubmit.disabled = false;
-            });
+            }, 1000)
+        });
     })
-
+   
 
 
 
