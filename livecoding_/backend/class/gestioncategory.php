@@ -26,7 +26,7 @@ class GestionCategory
             $data[] = [
                 "id" => $item->getId(),
                 "nom" => $item->getNom(),
-                "desc" => $item->getNom()
+                "desc" => $item->getDesc()
 
             ];
         }

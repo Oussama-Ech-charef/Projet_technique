@@ -1,116 +1,140 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const API_URL = 'http://localhost:8000/backend/api/api.php';
-    const form = document.getElementById('form-category');
-    const section = document.getElementById('section-form');
-    const table = document.getElementById('table-category');
-    const submit = document.getElementById('btn-submit');
-    const spinner = document.getElementById('spinner');
-    const buttonText = document.getElementById('btn-text');
-    const btnAjouter=document.getElementById("btn-show-form")
-    const btnAnnuler=document.getElementById("btn-cancel-form")
 
 
-    btnAjouter.addEventListener("click",()=>section.classList.remove("hidden"))
-    btnAnnuler.addEventListener("click",()=>{
-        section.classList.add("hidden")
+    const API_URL = "http://localhost:8000/backend/api/api.php";
+
+    const tabele = document.getElementById("table_category");
+
+
+    const form = document.getElementById("form_category");
+
+    const btnajoute = document.getElementById("btn_addcategory");
+
+    const btnannuler = document.getElementById("btn_annuler");
+
+    const sectionform = document.getElementById("section_form");
+
+    const nom = document.getElementById("nom");
+
+    const desc = document.getElementById("desc");
+
+    const spinner = document.getElementById("spinner");
+    const btnText = document.getElementById("btn_text");
+    const btnSubmit = document.getElementById("btn_submit");
+
+
+    btnajoute.addEventListener("click", () => {
+        sectionform.classList.remove("hidden")
+    });
+
+    btnannuler.addEventListener("click", () => {
+        sectionform.classList.add("hidden")
         form.reset()
-    })
+    });
 
 
-    function loading(isloding) {
-        if (isloding) {
-            submit.disabled = true
-            buttonText.textContent = "en cours ..."
-            spinner.classList.remove("hidden")
-        } else{ 
-            submit.disabled = false
-            buttonText.textContent = "enregistre"
-            spinner.classList.add("hidden")
-        }
-    }
+    function afficherCategory() {
 
-    function toast (message,type="success") {
-        const toastcont = document.getElementById("message")
-        toastcont.classList.remove("hidden")
-        const toast = document.createElement("div")
-        const color = type == "success"? 'bg-green-500':'bg-red-500'
-
-        toast.className = `
-            ${color} px-5 py-4 text-white transition-opacity duration-500
-        `
-
-        toast.textContent = `${message}`
-        toastcont.appendChild(toast)
-        setTimeout(() => {
-            toast.style.opacity = 0
-            setTimeout(() => {
-                toast.remove()
-            }, 500)
-        }, 3000)
-    }
-
-
-   
-
-   
-   
-
-    function affichercategory(){
-        fetch(API_URL).then(res=>
-            res.json()
-        )
-        .then(data=>{
-            
-            table.innerHTML=""
-            data.forEach(category=>{
-                const tr=document.createElement("tr")
-                tr.innerHTML=`
-                    <td class="px-4 py-3">${category["nom"]}</td>
-                    <td class="px-4 py-3">${category["desc"]}</td>
+        fetch(API_URL)
+            .then(response => response.json())
+            .then(thematiques => {
+                tabele.innerHTML = "";
+                thematiques.forEach(thematique => {
+                    tabele.innerHTML += `
+                <tr>
+                <td class="p-4 text-sm font-semibold text-gray-500">${thematique.nom}</td>
+                <td class="p-4 text-sm font-semibold text-gray-500 ">${thematique.desc}</td>
+                
+                </tr>
                 `
-                table.appendChild(tr)
+
+                });
             })
-        })
-        .catch(error=>{
-            loading(false)
-            console.error(error)
-        })
+
+
+
     }
 
-     affichercategory()
-    
-     form.addEventListener("submit", (e) => {
+    function showToast(message, type = "success") {
+        const container = document.getElementById("toast_con")
+        const toast = document.createElement("div");
+        toast.className = "text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300"
+        if (type == "success") {
+            toast.className += " bg-green-500"
+        } else {
+            toast.className += " bg-red-500"
+        }
+        toast.textContent = message;
+        container.appendChild(toast);
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
+    }
+
+
+    form.addEventListener("submit", function (e) {
+        let toastMessage;
+        let toastType;
         e.preventDefault();
-        loading(true)
+
+
+        const data = {
+            nom: nom.value,
+            desc: desc.value
+        }
+
+        spinner.classList.remove("hidden")
+        btnText.textContent = "enregistrer....."
+        btnSubmit.disabled = true;
+
         fetch(API_URL, {
             method: "POST",
-            headers: {"Content-Type" : "application/json"},
-            body: JSON.stringify({
-                nom:document.getElementById("nom").value,
-                desc:document.getElementById("desc").value
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+
+        .then(res => {
+            return res.json()
+            .then(data => {
+                if (!data.success) {
+                    throw new Error(data.message);
+                }else{
+
+                    return data;
+                }
+                
+
             })
         })
-        .then(res => res.json())
-        .then(data => {
-            form.reset()
-            affichercategory()
-
-            setTimeout(() => {
-                toast("success")
-                loading(false)
-            }, 1000);
-
+        .then(() => {
+            toastMessage = "category successfully";
+            toastType = "success";
+            form.reset();
+            afficherCategory();
         })
         .catch(error => {
-            
-            setTimeout(() => {
-                toast("errour :", "error")
-                
-            }, 1000);
-           
-            
+            toastMessage = error.message;
+            toastType = "error";
         })
-        
-     })
+
+        .finally(() => {
+            setTimeout(() => {
+                showToast(toastMessage, toastType);
+
+                spinner.classList.add("hidden");
+                btnText.textContent = "Enregistrer";
+                btnSubmit.disabled = false;
+            }, 1000)
+        });
+    })
+   
+
+
+
+    afficherCategory();
+
 
 });
+
