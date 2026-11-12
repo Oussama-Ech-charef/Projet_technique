@@ -31,9 +31,9 @@ class CategoryService extends BeseService
 
         try {
             $this->gestion->ajouter($input['nom'], $input['desc']);
-            return ['seccess' => true,];
+            return ['success' => true,];
         } catch (Exception $e) {
-            return ['seccess' => true, 'message' => $e->getMessage()];
+            return ['success' => false, 'message' => $e->getMessage()];
 
         }
 

@@ -22,7 +22,7 @@ class CategoryDao
         $categorys[] = new Category($id,$nom,$desc);
 
         if ($nom == "" || $desc == "") {
-            throw new Exception('inputes is empty');
+            throw new Exception('inpute is empty');
         }
 
 

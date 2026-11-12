@@ -1,5 +1,5 @@
 <?php
 
-class BeseService {
-    
+abstract class BeseService {
+
 }
