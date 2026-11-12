@@ -97,16 +97,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         .then(res => {
             return res.json()
-            // .then(data => {
-            //     if (!data.success) {
-            //         throw new Error(data.message);
-            //     }else{
+            .then(data => {
+                if (!data.success) {
+                    throw new Error(data.message);
+                }else{
 
-            //         return data;
-            //     }
+                    return data;
+                }
                 
 
-            // })
+            })
         })
         .then(() => {
             toastMessage = "category successfully";

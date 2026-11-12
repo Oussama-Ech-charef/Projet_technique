@@ -1,16 +1,16 @@
 <?php
-require_once __DIR__ . '/../controller/controllercategory.php';
+require_once __DIR__ . '/../serevices/CategoryService.php';
 header('Content-Type: application/json; charset=utf-8');
 
 $methode = $_SERVER['REQUEST_METHOD'];
-$controller = new ControllerCategory();
+$service = new CategoryService();
 
 
     if ($methode == 'GET') {
-        echo json_encode($controller->listerCategories());
+        echo json_encode($service->listerCategories());
     }
      if ($methode == 'POST') {
-        echo json_encode($controller->ajouteCategories());
+        echo json_encode($service->ajouteCategories());
     }
    
 

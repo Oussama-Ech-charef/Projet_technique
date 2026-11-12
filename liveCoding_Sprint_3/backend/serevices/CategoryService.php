@@ -1,13 +1,14 @@
 <?php
-require_once __DIR__ . '/../class/gestioncategory.php';
+require_once __DIR__ . '/../dao/CategoryDao.php';
+require_once __DIR__ . '/BeseService.php';
 
-class ControllerCategory
+class CategoryService extends BeseService
 {
-    private GestionCategory $gestion;
+    private CategoryDao $gestion;
 
     public function __construct()
     {
-        $this->gestion = new GestionCategory();
+        $this->gestion = new CategoryDao();
     }
 
     public function listerCategories()
@@ -27,7 +28,14 @@ class ControllerCategory
     public function ajouteCategories() {
         $input = json_decode(file_get_contents('php://input'), true);
 
-        $this->gestion->ajouter($input['nom'], $input['desc']);
+
+        try {
+            $this->gestion->ajouter($input['nom'], $input['desc']);
+            return ['seccess' => true,];
+        } catch (Exception $e) {
+            return ['seccess' => true, 'message' => $e->getMessage()];
+
+        }
 
         
     }

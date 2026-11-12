@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/category.php';
+require_once __DIR__ . '/../class/category.php';
 
-class GestionCategory
+class CategoryDao
 {
     private static $dataFile = __DIR__ . '/../data/category.json';
 
@@ -20,6 +20,10 @@ class GestionCategory
         $categorys = $this->afficherTous();
         $id = count($categorys) + 1;
         $categorys[] = new Category($id,$nom,$desc);
+
+        if ($nom == "" || $desc == "") {
+            throw new Exception('inputes is empty');
+        }
 
 
         foreach ($categorys as $item) {
