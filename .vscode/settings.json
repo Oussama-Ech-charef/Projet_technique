@@ -1,0 +1,14 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.jj": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "livecoding_": true,
+    "projet_technique_": true,
+    "READEM.md": true
+  },
+  "hide-files.files": ["livecoding_", "projet_technique_", "READEM.md"]
+}
